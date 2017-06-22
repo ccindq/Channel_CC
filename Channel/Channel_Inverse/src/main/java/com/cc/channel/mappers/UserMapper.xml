@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cc.channel.mappers.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.cc.channel.entities.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="CHAR" />
+    <result column="user_pwd" property="userPwd" jdbcType="CHAR" />
+    <result column="email" property="email" jdbcType="CHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="CHAR" />
+    <result column="code_arr" property="codeArr" jdbcType="CHAR" />
+    <result column="address" property="address" jdbcType="CHAR" />
+    <result column="other_info" property="otherInfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cc.channel.entities.User" >
+    insert into user (user_id, user_name, user_pwd, 
+      email, phone_num, code_arr, address, 
+      other_info)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{userPwd,jdbcType=CHAR}, 
+      #{email,jdbcType=CHAR}, #{phoneNum,jdbcType=CHAR}, #{codeArr,jdbcType=CHAR}, #{address,jdbcType=CHAR}, 
+      #{otherInfo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.cc.channel.entities.User" >
+    update user
+    set user_name = #{userName,jdbcType=CHAR},
+      user_pwd = #{userPwd,jdbcType=CHAR},
+      email = #{email,jdbcType=CHAR},
+      phone_num = #{phoneNum,jdbcType=CHAR},
+      code_arr = #{codeArr,jdbcType=CHAR},
+      address = #{address,jdbcType=CHAR},
+      other_info = #{otherInfo,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select user_id, user_name, user_pwd, email, phone_num, code_arr, address, other_info
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select user_id, user_name, user_pwd, email, phone_num, code_arr, address, other_info
+    from user
+  </select>
+</mapper>

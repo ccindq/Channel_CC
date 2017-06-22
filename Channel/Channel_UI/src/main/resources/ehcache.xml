@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <!-- diskstore标签：EHCache允许将超出内存范围的对象存入硬盘，这里使用path属性指定硬盘目录 -->
+    <diskStore path="D:\MyCache"/>
+
+    <!-- 默认的缓存策略 -->
+    <!-- maxElementsInMemory属性：缓存区域中最多能够保存的对象数量 -->
+    <!-- eternal属性：是否永不过期 -->
+    <!-- timeToIdleSeconds属性：缓存中对象的空闲时间 -->
+    <!-- 类似于HttpSession对象，按照空闲时间管理 -->
+
+    <!-- timeToLiveSeconds属性：缓存中对象的生存时间 -->
+    <!-- 类似于浏览器对Cookie的管理 -->
+
+    <!-- overflowToDisk属性：设置缓存对象达到数量最大值时是否溢出到硬盘上 -->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="true"
+    />
+
+    <!-- 声明一个具名的缓存区域，这个区域需要在Spring配置文件中引用 -->
+    <cache name= "surveyCache"
+           maxElementsInMemory= "10000"
+           eternal="false"
+           timeToIdleSeconds= "300"
+           timeToLiveSeconds= "600"
+           overflowToDisk= "true"
+    />
+
+    <cache name= "cacheEvictable"
+           maxElementsInMemory= "10000"
+           eternal="false"
+           timeToIdleSeconds= "300"
+           timeToLiveSeconds= "600"
+           overflowToDisk= "true"
+    />
+
+</ehcache>

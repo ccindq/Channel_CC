@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!--配置路由数据源-->
+    <bean id="channelRouter" class="com.cc.channel.router.ChannelRouter">
+        <property name="targetDataSources">
+            <map>
+                <entry key="main_DataSource" value-ref="mainDataSource"/>
+                <entry key="log_DataSource" value-ref="logDataSource"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="mainDataSource"/>
+    </bean>
+
+    <!--配置数据源-->
+    <bean id="mainDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.main.url}"/>
+    </bean>
+
+    <bean id="logDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.log.url}"/>
+    </bean>
+    <!--配置spring集成Mybatis的管理splSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--装配数据源-->
+        <property name="dataSource" ref="channelRouter"/>
+        <!--指明配置文件位置-->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <!--指明实体类所在位置-->
+        <property name="typeAliasesPackage" value="com.cc.channel.entities"/>
+    </bean>
+
+    <!--配置mapper扫描-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.cc.channel.mappers"/>
+    </bean>
+
+    <!--配置事务管理器-->
+    <!--<bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+        <!--<property name="dataSource" ref="mainDataSource"/>-->
+    <!--</bean>-->
+
+    <!--配置事务通知-->
+    <!--<tx:advice id="txAdvice" transaction-manager="dataSourceTransactionManager">-->
+        <!--<tx:attributes>-->
+        <!--即使切入点表达式已经涵盖了所有service方法，但是必须在这里配置事务属性后才真的有事务 -->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+
+    <!-- 配置缓存管理器的工厂 -->
+    <!--<bean id="ehCacheManagerFactoryBean" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+        <!--<property name="configLocation" value="classpath:ehcache.xml"/>-->
+    <!--</bean>-->
+
+    <!-- 配置缓存管理器 -->
+    <!--<bean id="ehCacheCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">-->
+        <!--<property name="cacheManager" ref="ehCacheManagerFactoryBean"/>-->
+    <!--</bean>-->
+
+    <!--缓存AOP配置-->
+    <!--<aop:config>-->
+<!---->
+    <!--</aop:config>-->
+    <!--缓存通知-->
+    <!--<cache:advice>-->
+<!---->
+    <!--</cache:advice>-->
+</beans>

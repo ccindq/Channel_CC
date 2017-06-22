@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cc.channel.mappers.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.cc.channel.entities.Log" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="operator_name" property="operatorName" jdbcType="CHAR" />
+    <result column="operator_time" property="operatorTime" jdbcType="CHAR" />
+    <result column="method_name" property="methodName" jdbcType="CHAR" />
+    <result column="input_value" property="inputValue" jdbcType="VARCHAR" />
+    <result column="of_type" property="ofType" jdbcType="CHAR" />
+    <result column="output_value" property="outputValue" jdbcType="VARCHAR" />
+    <result column="exception_type" property="exceptionType" jdbcType="CHAR" />
+    <result column="exception_value" property="exceptionValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manager_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cc.channel.entities.Log" >
+    insert into manager_log (log_id, operator_name, operator_time, 
+      method_name, input_value, of_type, 
+      output_value, exception_type, exception_value
+      )
+    values (#{logId,jdbcType=INTEGER}, #{operatorName,jdbcType=CHAR}, #{operatorTime,jdbcType=CHAR}, 
+      #{methodName,jdbcType=CHAR}, #{inputValue,jdbcType=VARCHAR}, #{ofType,jdbcType=CHAR}, 
+      #{outputValue,jdbcType=VARCHAR}, #{exceptionType,jdbcType=CHAR}, #{exceptionValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.cc.channel.entities.Log" >
+    update manager_log
+    set operator_name = #{operatorName,jdbcType=CHAR},
+      operator_time = #{operatorTime,jdbcType=CHAR},
+      method_name = #{methodName,jdbcType=CHAR},
+      input_value = #{inputValue,jdbcType=VARCHAR},
+      of_type = #{ofType,jdbcType=CHAR},
+      output_value = #{outputValue,jdbcType=VARCHAR},
+      exception_type = #{exceptionType,jdbcType=CHAR},
+      exception_value = #{exceptionValue,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select log_id, operator_name, operator_time, method_name, input_value, of_type, output_value, 
+    exception_type, exception_value
+    from manager_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select log_id, operator_name, operator_time, method_name, input_value, of_type, output_value, 
+    exception_type, exception_value
+    from manager_log
+  </select>
+</mapper>
