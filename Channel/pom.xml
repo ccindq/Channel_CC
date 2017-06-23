@@ -14,7 +14,7 @@
         <module>Channel_UI</module>
         <module>Channel_Core</module>
         <module>Channel_Biz</module>
-    /modules>
+    </modules>
 
 
 </project>
